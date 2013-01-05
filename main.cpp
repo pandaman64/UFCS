@@ -41,9 +41,15 @@ struct hoge{
 int main(){
 	auto l = {1,2,3,4,5,6};
 	std::vector<int> v(l.begin(),l.end());
-	print(v);
-	map(v,[](int i){ return i * i; })->*print();
-	print(map(v,[](int i){ return -i; }));
+	
+	//ｶｯｸｲｲ...
 	v->*map([](int i){ return i*2; })->*print();
+	
+	//普通にも呼び出せる
+	print(v);
+	print(map(v,[](int i){ return -i; }));
+	
+	//混ぜてもOK
+	map(v,[](int i){ return i * i; })->*print();
 	return 0;
 }
