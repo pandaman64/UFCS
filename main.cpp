@@ -1,15 +1,11 @@
 #include "ufcs.h"
+#include "map.h"
 
 #include <iostream>
 #include <initializer_list>
 #include <vector>
 #include <iterator>
 #include <algorithm>
-
-#include "algorithm.h"
-#include "make_ufcs_wrapper.h"
-#include "boost_range_adapt.h"
-#include "is_callable.h"
 
 struct map_impl{
 	template<typename T,typename F>
@@ -33,15 +29,17 @@ struct print_impl{
 };
 MAKE_UFCS_WRAPPER(print_impl,print);
 
-struct hoge{
-	void operator ()(){
-	}
-};
-
 int main(){
 	auto l = {1,2,3,4,5,6};
 	std::vector<int> v(l.begin(),l.end());
 	
+	for(auto it : panlib::algorithm::map(v,[](int i){ std::cout << "hoge"; return i*5; })){
+		std::cout << it << std::endl;
+	}
+	for(auto &it : std::vector<double>(v.begin(),v.end())){
+		std::cout << it << std::endl;
+	}
+
 	//ｶｯｸｲｲ...
 	v->*map([](int i){ return i*2; })->*print();
 	
