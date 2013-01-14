@@ -2,6 +2,10 @@
 #define PANLIB_COPY_HEADER
 
 #include <type_traits>
+#include <utility>
+
+#include "ufcs.h"
+#include "make_ufcs_wrapper.h"
 
 namespace panlib{
 namespace algorithm{
@@ -28,6 +32,14 @@ public:
 		return range.empty();
 	}
 };
+
+struct copy_algorithm{
+	template<typename Range>
+	Copy<Range> operator ()(Range &&range){
+		return { std::forward<Range>(range) };
+	}
+};
+MAKE_UFCS_WRAPPER(copy_algorithm,copy);
 
 } //namespace algorithm
 } //namespace panlib

@@ -9,6 +9,7 @@
 
 #include "range.h"
 #include "copy.h"
+#include "immediate_copy.h"
 
 struct map_impl{
 	template<typename T,typename F>
@@ -47,6 +48,7 @@ int main(){
 	map(v,[](int i){ return i * i; })->*print();
 
 	auto range=panlib::algorithm::map(panlib::range::all(v),[](int i){ std::cout << i << std::endl; });
+	auto range2=panlib::algorithm::immediate_copy(panlib::range::all(v));
 	while(!range.empty()){
 		range.front();
 		range.pop_front();
