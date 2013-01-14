@@ -1,4 +1,5 @@
 #include "ufcs.h"
+#include "map.h"
 
 #include <iostream>
 #include <initializer_list>
@@ -32,6 +33,13 @@ int main(){
 	auto l = {1,2,3,4,5,6};
 	std::vector<int> v(l.begin(),l.end());
 	
+	for(auto it : panlib::algorithm::map(v,[](int i){ std::cout << "hoge"; return i*5; })){
+		std::cout << it << std::endl;
+	}
+	for(auto &it : std::vector<double>(v.begin(),v.end())){
+		std::cout << it << std::endl;
+	}
+
 	//ｶｯｸｲｲ...
 	v->*map([](int i){ return i*2; })->*print();
 	
