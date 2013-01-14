@@ -7,6 +7,10 @@
 #include <iterator>
 #include <algorithm>
 
+#include "range.h"
+#include "copy.h"
+#include "immediate_copy.h"
+
 struct map_impl{
 	template<typename T,typename F>
 	typename std::remove_reference<T>::type operator ()(T && seq,F &&f){
@@ -32,13 +36,6 @@ MAKE_UFCS_WRAPPER(print_impl,print);
 int main(){
 	auto l = {1,2,3,4,5,6};
 	std::vector<int> v(l.begin(),l.end());
-	
-	for(auto it : panlib::algorithm::map(v,[](int i){ std::cout << "hoge"; return i*5; })){
-		std::cout << it << std::endl;
-	}
-	for(auto &it : std::vector<double>(v.begin(),v.end())){
-		std::cout << it << std::endl;
-	}
 
 	//ｶｯｸｲｲ...
 	v->*map([](int i){ return i*2; })->*print();
@@ -49,5 +46,13 @@ int main(){
 	
 	//混ぜてもOK
 	map(v,[](int i){ return i * i; })->*print();
+
+	auto range=panlib::algorithm::map(panlib::range::all(v),[](int i){ std::cout << i << std::endl; });
+	auto range2=panlib::algorithm::immediate_copy(panlib::range::all(v));
+	while(!range.empty()){
+		range.front();
+		range.pop_front();
+	}
+
 	return 0;
 }
